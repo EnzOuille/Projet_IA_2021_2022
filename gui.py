@@ -13,6 +13,7 @@ class Grid:
         [0, 0, 1, 0, 5, 0, 9, 3, 0],
         [9, 0, 4, 0, 6, 0, 0, 0, 5],
         [0, 7, 0, 3, 0, 0, 0, 1, 2],
+        [0, 7, 0, 3, 0, 0, 0, 1, 2],
         [1, 2, 0, 0, 0, 7, 4, 0, 0],
         [0, 4, 9, 2, 0, 6, 0, 0, 7]
     ]
@@ -220,7 +221,6 @@ def main():
 
         redraw_window(win, board, play_time, strikes)
         pygame.display.update()
-
 
 main()
 pygame.quit()
