@@ -1,5 +1,8 @@
 import random
+import copy
+from sudoku_enzo import solve_sudoku
 
+NB_VAR=35
 
 def population_initialization():
     first_population = []
@@ -14,7 +17,7 @@ def population_initialization():
                 [0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-        for i in range(20):
+        for i in range(NB_VAR):
             x = random.randint(0, 8)
             y = random.randint(0, 8)
             while grid[x][y] != 0:
@@ -47,10 +50,10 @@ def check_case(arr, line, column):
 
 
 def evolution(grid_one, grid_two):
-    print("---------------------------")
-    print(grid_evaluation(grid_one))
-    print(grid_evaluation(grid_two))
-    print("---------------------------\n")
+    # print("---------------------------")
+    # print(grid_evaluation(grid_one))
+    # print(grid_evaluation(grid_two))
+    # print("---------------------------\n")
     new_population = []
     for i in range(5):
         random_stat = random.random()
@@ -98,11 +101,29 @@ def population_evolution(population):
 def main():
     population = population_initialization()
     print_population(population)
-    for nb_iteratation in range(1, 5):
-        print("\nGénération n°" + str(nb_iteratation))
+    nb_iteratation=0
+    resolu=False
+    while not resolu:
+    # for nb_iteratation in range(1, 100):
+        # print("\nGénération n°" + str(nb_iteratation))
         population = population_evolution(population)
-        print_population(population)
-
+        # print_population(population)
+        """
+        calcul du meilleur element
+        """
+        max=(grid_evaluation(population[0]))
+        index=0
+        for child in population:
+            if max<grid_evaluation(child):
+                max=grid_evaluation(child)
+                index=population.index(child)
+        if max >= NB_VAR:
+            copy_grid = copy.deepcopy(population[index])
+            resolu=solve_sudoku(copy_grid)
+        nb_iteratation+=1
+        # else:
+            # print("chelou:" + str(max))
+    print(population[index])
 
 def print_population(population):
     for grid in population:
