@@ -39,14 +39,40 @@ def grid_evaluation(arr):
 
 def check_case(arr, line, column):
     case_value = arr[line][column]
+    nb_appearance_in_square = check_case_square(arr, case_value, line, column)
+    nb_appearance_in_column = check_case_column(arr, case_value, column)
+
+    if arr[line].count(case_value) > 1 or nb_appearance_in_column > 1 or nb_appearance_in_square > 1:
+        return 0
+    return 1
+
+
+def check_case_column(arr, case_value, column):
     nb_appearance_in_column = 0
     for x in range(9):
         if arr[x][column] == case_value:
             nb_appearance_in_column += 1
+    return nb_appearance_in_column
 
-    if arr[line].count(case_value) > 1 or nb_appearance_in_column > 1:
-        return 0
-    return 1
+
+def check_case_square(arr, case_value, line, column):
+    nb_appearance_in_square = 0
+    line_range = get_range(line)
+    column_range = get_range(column)
+
+    for x in range(line_range[0], line_range[1]):
+        for y in range(column_range[0], column_range[1]):
+            if arr[x][y] == case_value:
+                nb_appearance_in_square += 1
+    return nb_appearance_in_square
+
+
+def get_range(value):
+    square_pattern = [[0, 3], [3, 6], [6, 9]]
+    for pattern in square_pattern:
+        if value in range(pattern[0], pattern[1]):
+            return pattern
+    return []
 
 
 def evolution(grid_one, grid_two):
