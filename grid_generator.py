@@ -1,8 +1,8 @@
 import random
 import copy
-from sudoku_enzo import solve_sudoku
+from sudoku_enzo import solve_sudoku, print_grid
 
-NB_VAR=35
+NB_VAR=60
 
 def population_initialization():
     first_population = []
@@ -103,11 +103,9 @@ def main():
     print_population(population)
     nb_iteratation=0
     resolu=False
+    copy_grid=[]
     while not resolu:
-    # for nb_iteratation in range(1, 100):
-        # print("\nGénération n°" + str(nb_iteratation))
         population = population_evolution(population)
-        # print_population(population)
         """
         calcul du meilleur element
         """
@@ -118,12 +116,12 @@ def main():
                 max=grid_evaluation(child)
                 index=population.index(child)
         if max >= NB_VAR:
-            copy_grid = copy.deepcopy(population[index])
-            resolu=solve_sudoku(copy_grid)
+            copy_grid=copy.deepcopy(population[index])
+            resolu=solve_sudoku(copy.deepcopy(population[index]))
+            print(resolu)
         nb_iteratation+=1
-        # else:
-            # print("chelou:" + str(max))
-    print(population[index])
+    print("Grille généré : \n")
+    print_grid(copy_grid)
 
 def print_population(population):
     for grid in population:
