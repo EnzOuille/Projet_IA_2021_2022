@@ -151,9 +151,8 @@ if __name__ == "__main__":
     results = []
     copy_grid = copy.deepcopy(grid)
     solutions = brute_force(grid)
-    start = time.time()
-    end = time.time()
     if verif_grid(copy_grid):
+        start = time.time()
         if (solve_sudoku(copy_grid)):
             end = time.time()
             print_grid(grid)
