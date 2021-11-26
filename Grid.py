@@ -1,7 +1,8 @@
 import pygame
 from Cube import Cube
+import time
 import copy
-from sudoku_enzo import verif_grid, solve_sudoku
+from sudoku_enzo import verif_grid, solve_sudoku, brute_force
 
 class Grid:
 	# grid=[[0, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -15,14 +16,14 @@ class Grid:
 	# 	[0, 0, 5, 2, 0, 6, 3, 0, 0]]
 
 	grid=[[2, 9, 5, 7, 4, 3, 8, 6, 1],
-            [4, 3, 1, 8, 6, 5, 9, 0, 0],
-            [8, 7, 6, 1, 9, 2, 5, 4, 3],
-            [3, 8, 7, 4, 5, 9, 2, 1, 6],
-            [6, 1, 2, 3, 8, 7, 0, 9, 5],
-            [5, 4, 9, 2, 1, 6, 7, 3, 8],
-            [7, 6, 3, 5, 0, 4, 1, 8, 9],
-            [9, 2, 8, 6, 7, 1, 3, 5, 4],
-            [1, 5, 4, 9, 3, 8, 0, 0, 0]]
+			[4, 3, 1, 8, 6, 5, 9, 0, 0],
+			[8, 7, 6, 1, 9, 2, 5, 4, 3],
+			[3, 8, 7, 4, 5, 9, 2, 1, 6],
+			[6, 1, 2, 3, 8, 7, 0, 9, 5],
+			[5, 4, 9, 2, 1, 6, 7, 3, 8],
+			[7, 6, 3, 5, 0, 4, 1, 8, 9],
+			[9, 2, 8, 6, 7, 1, 3, 5, 4],
+			[1, 5, 4, 9, 3, 8, 0, 0, 0]]
 
 	def __init__(self, rows, cols):
 		self.rows = rows
@@ -106,3 +107,14 @@ class Grid:
 		self.grid=copy_grid
 		self.cubes = [[Cube(self.grid[i][j], i, j) for j in range(9)] for i in range(9)]
 		return res
+
+	def evaluate(self):
+		self.update_model()
+		copy_grid=copy.deepcopy(self.model)
+		solutions=brute_force(copy_grid)
+		start=time.time()
+		copy_grid_force=copy.deepcopy(self.model)
+		res=solve_sudoku(copy_grid_force)
+		end=time.time()
+		print("La résolution de la grille a pris {:.3f}".format(end - start) + " secondes.")
+		print("Il y a : " + str(solutions) + " solutions.")

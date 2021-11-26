@@ -19,6 +19,8 @@ while run:
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_s:
 				board.solve()
+			if event.key == pygame.K_e:
+				board.evaluate()
 			if event.key == pygame.K_1:
 				key = 1
 			if event.key == pygame.K_2:
