@@ -97,6 +97,7 @@ def solve_sudoku(arr):
 
 def brute_force(arr):
     print("Starting BruteForce")
+    results = []
     count = 0
     lines = 0
     for line in arr:
