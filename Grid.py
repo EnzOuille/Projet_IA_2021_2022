@@ -147,3 +147,5 @@ class Grid:
 			self.difficulty="facile"
 			self.nb_solution=solutions
 			self.time="{:.3f}".format(end - start)
+		if (str(self.time) == '0.000'):
+			self.time = '0.001'
