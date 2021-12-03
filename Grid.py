@@ -15,12 +15,12 @@ class Grid:
 	# 	[0, 0, 0, 0, 0, 0, 0, 7, 4],
 	# 	[0, 0, 5, 2, 0, 6, 3, 0, 0]]
 
-	grid=[[2, 9, 5, 7, 4, 3, 8, 6, 1],
+	grid=[[0, 9, 5, 7, 4, 3, 8, 6, 1],
 			[4, 3, 1, 8, 6, 5, 9, 0, 0],
 			[8, 7, 6, 1, 9, 2, 5, 4, 3],
 			[3, 8, 7, 4, 5, 9, 2, 1, 6],
-			[6, 1, 2, 3, 8, 7, 0, 9, 5],
-			[5, 4, 9, 2, 1, 6, 7, 3, 8],
+			[0, 1, 2, 3, 8, 7, 0, 9, 5],
+			[5, 4, 0, 2, 1, 6, 7, 3, 8],
 			[7, 6, 3, 5, 0, 4, 1, 8, 9],
 			[9, 2, 8, 6, 7, 1, 3, 5, 4],
 			[1, 5, 4, 9, 3, 8, 0, 0, 0]]
@@ -31,6 +31,10 @@ class Grid:
 		self.cubes = [[Cube(self.grid[i][j], i, j) for j in range(cols)] for i in range(rows)]
 		self.model = None
 		self.selected = None
+		self.difficulty="N/A"
+		self.nb_solution="N/A"
+		self.time="N/A"
+		self.evaluate()
 
 	def update_model(self):
 		self.model = [[self.cubes[i][j].value for j in range(self.cols)] for i in range(self.rows)]
@@ -62,9 +66,17 @@ class Grid:
 			pygame.draw.line(win, (0,0,0), (0, i*gap), (540, i*gap), thick)
 			pygame.draw.line(win, (0, 0, 0), (i * gap, 0), (i * gap, 540), thick)
 
+		fnt = pygame.font.SysFont("default", 20)
+		text = fnt.render("Difficulté : "+self.difficulty, 1, (0, 0, 0))
+		win.blit(text, (25, 545))
+		text = fnt.render("Temps de résolution : "+str(self.time), 1, (0, 0, 0))
+		win.blit(text, (25, 560))
+		text = fnt.render("Nombre solutions : "+str(self.nb_solution), 1, (0, 0, 0))
+		win.blit(text, (25, 575))
+
 		for i in range(self.rows):
 			for j in range(self.cols):
-				self.cubes[i][j].draw(win)
+				self.cubes[i][j].draw(win)	
 
 	def select(self, row, col):
 		for i in range(self.rows):
@@ -112,9 +124,26 @@ class Grid:
 		self.update_model()
 		copy_grid=copy.deepcopy(self.model)
 		solutions=brute_force(copy_grid)
+		print(copy_grid)
+		print(solutions)
 		start=time.time()
 		copy_grid_force=copy.deepcopy(self.model)
 		res=solve_sudoku(copy_grid_force)
 		end=time.time()
-		print("La résolution de la grille a pris {:.3f}".format(end - start) + " secondes.")
-		print("Il y a : " + str(solutions) + " solutions.")
+		# print("La résolution de la grille a pris {:.3f}".format(end - start) + " secondes.")
+		# print("Il y a : " + str(solutions) + " solutions.")
+		if (solutions > 1):
+			if ((end-start)>5):
+				self.difficulty="difficile"
+			else:
+				self.difficulty="moyenne"
+			self.nb_solution=solutions
+			self.time="{:.3f}".format(end - start)
+		elif (solutions==1):
+			if ((end-start) > 5):
+				self.difficulty="moyenne"
+			else:
+				self.difficulty="facile"
+			self.difficulty="facile"
+			self.nb_solution=solutions
+			self.time="{:.3f}".format(end - start)

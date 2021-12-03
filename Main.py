@@ -9,6 +9,7 @@ def redraw_window(win, board, strikes):
 win=pygame.display.set_mode((540,600))
 pygame.display.set_caption("Sudoku")
 board = Grid(9, 9)
+# board.evaluate()
 key = None
 run = True
 strikes = 0
@@ -17,10 +18,11 @@ while run:
 		if event.type == pygame.QUIT:
 			run = False
 		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_r:
+				board=Grid(9,9)
+				# board.evaluate()
 			if event.key == pygame.K_s:
 				board.solve()
-			if event.key == pygame.K_e:
-				board.evaluate()
 			if event.key == pygame.K_1:
 				key = 1
 			if event.key == pygame.K_2:
@@ -47,6 +49,7 @@ while run:
 				if board.cubes[i][j].temp != 0:
 					if board.place(board.cubes[i][j].temp):
 						print("Success")
+						board.evaluate()
 					else:
 						print("Wrong")
 						strikes += 1
