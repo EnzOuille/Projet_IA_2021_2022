@@ -18,13 +18,19 @@ def population_initialization():
                 [0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-        for i in range(NB_VAR):
+        for i in range(0, NB_VAR):
             x = random.randint(0, 8)
             y = random.randint(0, 8)
-            while grid[x][y] != 0:
+            old_value = grid[x][y]
+            new_value = random.randint(1, 9)
+            grid[x][y] = new_value
+            while check_case(grid, x, y) == 0 or old_value != 0:
+                grid[x][y] = old_value
                 x = random.randint(0, 8)
                 y = random.randint(0, 8)
-            grid[x][y] = random.randint(1, 9)
+                old_value = grid[x][y]
+                new_value = random.randint(1, 9)
+                grid[x][y] = new_value
         first_population.append(grid)
     return first_population
 
