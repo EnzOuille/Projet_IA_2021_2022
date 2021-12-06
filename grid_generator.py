@@ -83,10 +83,6 @@ def get_range(value):
 
 
 def evolution(grid_one, grid_two):
-    # print("---------------------------")
-    # print(grid_evaluation(grid_one))
-    # print(grid_evaluation(grid_two))
-    # print("---------------------------\n")
     new_population = []
     for i in range(5):
         random_stat = random.random()
@@ -155,7 +151,6 @@ def main():
         nb_iteratation+=1
     print("Grille généré : \n")
     print_grid(copy_grid)
-    # solve_sudoku(copy_grid)
 
 def print_population(population):
     for grid in population:
